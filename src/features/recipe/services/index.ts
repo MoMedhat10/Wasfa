@@ -65,7 +65,6 @@ export const updateComment = async ({commentId , body}: {commentId: string , bod
     try {
         const response = await api.put(`/comments/${commentId}` , {body})
         return response.data
-        console.log("test");
     }
     catch (err: unknown)
     {

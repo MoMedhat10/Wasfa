@@ -1,4 +1,8 @@
+import useAuthStore from '@/features/auth/store/auth';
+import { addToast } from '@heroui/react';
 import { Check, Star, Zap, Crown } from 'lucide-react';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 interface PricingCardProps {
     title: string;
@@ -9,6 +13,7 @@ interface PricingCardProps {
     buttonText: string;
     variant: 'free' | 'basic' | 'pro';
     isPopular?: boolean;
+    paymentLink?: string;
 }
 
 
@@ -23,6 +28,7 @@ export default function PricingCard({
     buttonText,
     variant,
     isPopular = false,
+    paymentLink,
 }: PricingCardProps) {
 
     const getThemeStyles = () => {
@@ -56,6 +62,23 @@ export default function PricingCard({
     };
 
     const styles = getThemeStyles();
+    const { accessToken } = useAuthStore();
+
+    const handlePayment = () => {
+        
+        if (!accessToken) {
+            addToast({
+                title: 'Please login first',
+                description: 'Please login first to access this feature',
+                color: 'danger',
+            })
+            return
+        }
+         
+        window.location.href = paymentLink || "/plans"  ;
+    };
+
+    
 
     return (
         <div className={`flex flex-col relative bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full ${isPopular ? styles.popularBorder : ''}`}>
@@ -89,7 +112,7 @@ export default function PricingCard({
                     ))}
                 </ul>
 
-                <button className={`w-full py-4 cursor-pointer rounded-xl font-bold transition-all transform active:scale-[0.98] ${styles.buttonBg}`}>
+                <button onClick={handlePayment}  className={`w-full text-center py-4 cursor-pointer rounded-xl font-bold transition-all transform active:scale-[0.98] ${styles.buttonBg}`}>
                     {buttonText}
                 </button>
             </div>

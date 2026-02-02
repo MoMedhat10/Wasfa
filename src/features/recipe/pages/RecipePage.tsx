@@ -7,11 +7,13 @@ import RecipeError from "./RecipeError";
 import ImageSection from "../components/imageSection/ImageSection";
 import Ingredients from "../components/ingredients/Ingredients";
 import Instructions from "../components/instuctions/Instructions";
-import ReviewForm from "../components/reviewForm/ReviewForm";
+import ReviewForm, { JwtPayload } from "../components/reviewForm/ReviewForm";
 import ReviewList from "../components/reviewList/ReviewList";
 import RecipePageSkeleton from "./RecipePageSkeleton";
 import CommentsNotFound from "../components/notFoundComments/CommentsNotFound";
 import useAuthStore from "@/features/auth/store/auth";
+import { jwtDecode } from "jwt-decode";
+import { useFetchUser } from "@/features/profile/hooks/useFetchUser";
 
 
 export default function RecipePage() {
@@ -19,6 +21,11 @@ export default function RecipePage() {
     const { id } = useParams<{ id: string }>();
     const { recipe, isLoading, error, refetch } = useRecipe(id!);
     const { accessToken } = useAuthStore();
+    const { _id: userId } = jwtDecode<JwtPayload>(accessToken!);
+
+    const { user} = useFetchUser(userId);
+    const isFavorite = user?.favoriteRecipes.some((recipe) => recipe.id === id);
+    
 
     const avgRating = recipe?.comments?.length
         ? recipe.comments.reduce((acc, comment) => acc + comment.rating, 0) / recipe.comments.length
@@ -50,7 +57,7 @@ export default function RecipePage() {
             </div>
 
             {/* Image Section */}
-            <ImageSection recipe={{ ...recipe!, rating: avgRating }} />
+            <ImageSection userId={userId} isFavorite={isFavorite} recipe={{ ...recipe!, rating: avgRating }} />
 
             {/* Description */}
             <div className="container mx-auto px-6 mt-8">

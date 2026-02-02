@@ -63,7 +63,7 @@ export const deleteComment = async (commentId: string) => {
 
 export const updateComment = async ({commentId , body}: {commentId: string , body: string}) => {
     try {
-        const response = await api.put(`/comments/${commentId}` , {body})
+        const response = await api.put(`/comments/${commentId}` , { body })
         return response.data
     }
     catch (err: unknown)
@@ -74,5 +74,22 @@ export const updateComment = async ({commentId , body}: {commentId: string , bod
             throw new Error(err.response?.data.message)
         }
         throw new Error("Failed to update comment")
+    }
+}
+
+
+export const toggleFavorite = async (recipeId: string) => {
+    try {
+        const response = await api.put(`/recipes/favorite/${recipeId}`)
+        return response.data
+    }
+    catch (err: unknown)
+    {
+        console.log(err);
+        if(err instanceof AxiosError)
+        {
+            throw new Error(err.response?.data.message)
+        }
+        throw new Error("Failed to add favorite")
     }
 }

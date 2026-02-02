@@ -19,6 +19,8 @@ import OverviewPage from './features/admin/overview/pages/OverviewPage';
 import UsersPage from './features/admin/users/pages/UsersPage';
 import RecipesPage from './features/admin/recipes/pages/RecipesPage';
 import ReviewsPage from './features/admin/reviews/pages/ReviewsPage';
+import SuccessPage from './features/plans/pages/SuccessPage';
+import CancelPage from './features/plans/pages/CancelPage';
 
 
 
@@ -36,6 +38,8 @@ function App() {
           <Route path='search' element={<SearchPage />} />
           <Route path='profile' element={<ProfilePage />} />
           <Route path='plans' element={<PlansPage />} />
+          <Route path='/success' element={<SuccessPage />} />
+          <Route path='/cancel' element={<CancelPage />} />
         </Route>
 
         <Route path='/admin' element={<AdminLayout />}>

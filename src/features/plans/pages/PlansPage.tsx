@@ -44,7 +44,6 @@ export default function PlansPage() {
                         searches="50 searches/month"
                         buttonText="Upgrade to Basic"
                         variant="basic"
-                        paymentLink= {import.meta.env.VITE_STRIPE_BASIC_PLAN_LINK}
                         features={[
                             "Everything in Free",
                             "50 ingredient searches per month",
@@ -63,7 +62,6 @@ export default function PlansPage() {
                         buttonText="Upgrade to Pro"
                         variant="pro"
                         isPopular={true}
-                        paymentLink= {import.meta.env.VITE_STRIPE_PRO_PLAN_LINK}
                         features={[
                             "Everything in Basic",
                             "Unlimited ingredient searches",

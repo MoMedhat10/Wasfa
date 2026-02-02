@@ -1,11 +1,12 @@
+import api from '@/common/api';
 import useAuthStore from '@/features/auth/store/auth';
 import { addToast } from '@heroui/react';
+import { isAxiosError } from 'axios';
 import { Check, Star, Zap, Crown } from 'lucide-react';
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+
 
 interface PricingCardProps {
-    title: string;
+    title: "Free" | "Basic" | "Pro";
     price: string;
     period: string;
     searches: string;
@@ -13,7 +14,6 @@ interface PricingCardProps {
     buttonText: string;
     variant: 'free' | 'basic' | 'pro';
     isPopular?: boolean;
-    paymentLink?: string;
 }
 
 
@@ -28,7 +28,6 @@ export default function PricingCard({
     buttonText,
     variant,
     isPopular = false,
-    paymentLink,
 }: PricingCardProps) {
 
     const getThemeStyles = () => {
@@ -63,8 +62,11 @@ export default function PricingCard({
 
     const styles = getThemeStyles();
     const { accessToken } = useAuthStore();
+    const priceId = title === "Basic" ? import.meta.env.VITE_STRIPE_BASIC_PLAN_PRICE_ID : title === "Pro" ? import.meta.env.VITE_STRIPE_PRO_PLAN_PRICE_ID : null;
+    
 
-    const handlePayment = () => {
+
+    const handleSubscribe = async (priceId: string) => {
         
         if (!accessToken) {
             addToast({
@@ -75,7 +77,25 @@ export default function PricingCard({
             return
         }
          
-        window.location.href = paymentLink || "/plans"  ;
+        if(!priceId) return;
+
+        try {
+            const response = await api.post("/payments/checkout-session" , {
+                priceId,
+            })
+
+            const session = response.data;
+            window.location.href = session.url;
+        } catch (error:unknown) {
+            console.log(error)
+            if(isAxiosError(error)){
+                addToast({
+                    title: 'Error',
+                    description: error.response?.data?.message || "Something went wrong",
+                    color: 'danger',
+                })
+            }
+        }
     };
 
     
@@ -112,7 +132,7 @@ export default function PricingCard({
                     ))}
                 </ul>
 
-                <button onClick={handlePayment}  className={`w-full text-center py-4 cursor-pointer rounded-xl font-bold transition-all transform active:scale-[0.98] ${styles.buttonBg}`}>
+                <button onClick={() => handleSubscribe(priceId)}  className={`w-full text-center py-4 cursor-pointer rounded-xl font-bold transition-all transform active:scale-[0.98] ${styles.buttonBg}`}>
                     {buttonText}
                 </button>
             </div>

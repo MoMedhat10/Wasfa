@@ -1,19 +1,17 @@
 
-import { NavLink, useNavigate } from "react-router-dom";
-import { Home, Search, CreditCard, LogIn, UserPlus, LogOut, User } from "lucide-react";
-import { NavigationItemsProps, NavItem } from "../interfaces";
+import { NavLink } from "react-router-dom";
+import { Home, Search, CreditCard, LogIn, UserPlus, User } from "lucide-react";
+import { NavigationItemsProps, NavItem } from "../interfacess";
 import useAuthStore from "@/features/auth/store/auth";
-import api from "@/common/api";
-import { addToast } from "@heroui/react";
-import { AxiosError } from "axios";
-import { useState } from "react";
+import { useLogout } from "@/common/hooks/useLogout";
 
 
 
 
 export default function NavigationItems({ isMobile = false, onItemClick }: NavigationItemsProps) {
-    const [loading , setLoading] = useState<boolean>(false);
-    const { accessToken , setAccessToken } = useAuthStore();
+    
+    const { accessToken } = useAuthStore();
+    const [handleLogout , loading] = useLogout();
 
     const navigationItems = [
         { name: "Home", path: "/", icon: Home, show: true },
@@ -24,31 +22,7 @@ export default function NavigationItems({ isMobile = false, onItemClick }: Navig
         {name: "Profile", path: "/profile", icon: User, show: accessToken}
     ];
 
-    async function handleLogout() {
-        try {
-            setLoading(true);
-            await api.post<{message: string}>("/auth/logout");
-               setAccessToken(null!);
-               useAuthStore.persist.clearStorage();
-            addToast({
-                title: "Logout Successful!",
-                description: "You have been logged out successfully.",
-                color: "success",
-            });
-        } catch (error: unknown) {
-            if(error instanceof AxiosError)
-            {
-                addToast({
-                    title: "Logout Failed!",
-                    description: error.response?.data.message || "Something went wrong! please try again",
-                    color: "danger",
-                })
-            }
-        }
-        finally {
-            setLoading(false);
-        }
-    }
+   
 
     const renderNavLink = (item: NavItem) => {
         const Icon = item.icon;

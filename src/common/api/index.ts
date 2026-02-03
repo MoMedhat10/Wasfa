@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import useAuthStore from '@/features/auth/store/auth';
-import { OriginalRequest } from '../interfaces';
+import { OriginalRequest } from '../interfacess';
 
 
 const base = import.meta.env.VITE_BASE_URL;
@@ -37,7 +37,7 @@ api.interceptors.response.use(
                 );
 
                 const newToken: string = res.data.token;
-                useAuthStore.getState().setAccessToken(newToken); 
+                useAuthStore.getState().setAccessToken(newToken);
 
                 originalRequest.headers.Authorization = `Bearer ${newToken}`;
                 // Return a new promise to retry the original request with the new token
@@ -45,7 +45,7 @@ api.interceptors.response.use(
             } catch (err) {
                 console.error('Refresh token failed:', err);
                 console.log('Response:', (err as AxiosError).response?.data);
-                
+
                 useAuthStore.persist.clearStorage();
                 window.location.href = '/login';
                 return Promise.reject(err);

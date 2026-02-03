@@ -6,6 +6,7 @@ import {
     MessageSquare,
     LogOut
 } from 'lucide-react';
+import { useLogout } from '@/common/hooks/useLogout';
 
 interface AdminSidebarProps {
     isOpen: boolean;
@@ -21,6 +22,8 @@ const AdminSidebar = ({ isOpen, onClose }: AdminSidebarProps) => {
         { name: 'Recipes', path: '/admin/recipes', icon: UtensilsCrossed },
         { name: 'Reviews', path: '/admin/reviews', icon: MessageSquare },
     ];
+
+    const [handleLogout , loading] = useLogout();
 
     return (
         <aside
@@ -73,7 +76,9 @@ const AdminSidebar = ({ isOpen, onClose }: AdminSidebarProps) => {
                         </div>
                     </div>
                     <button
-                        className="flex cursor-pointer w-full items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
+                        disabled={loading}
+                        onClick={handleLogout}
+                        className="flex disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer w-full items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
                     >
                         <LogOut className="h-4 w-4" />
                         Logout

@@ -1,4 +1,4 @@
-import { CustomSelectProps } from "../../interfaces/index"
+import { CustomSelectProps } from "../../interfacess/index"
 
 
 

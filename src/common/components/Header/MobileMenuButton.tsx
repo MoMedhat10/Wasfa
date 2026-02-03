@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-sort-props */
-/* eslint-disable prettier/prettier */
+
 import { MobileMenuButtonProps } from "../interfaces";
 
 export default function MobileMenuButton({ isOpen, onClick }: MobileMenuButtonProps) {

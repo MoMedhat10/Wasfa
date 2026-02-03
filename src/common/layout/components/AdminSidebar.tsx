@@ -4,7 +4,6 @@ import {
     Users,
     UtensilsCrossed,
     MessageSquare,
-    CreditCard,
     LogOut
 } from 'lucide-react';
 
@@ -21,7 +20,6 @@ const AdminSidebar = ({ isOpen, onClose }: AdminSidebarProps) => {
         { name: 'Users', path: '/admin/users', icon: Users },
         { name: 'Recipes', path: '/admin/recipes', icon: UtensilsCrossed },
         { name: 'Reviews', path: '/admin/reviews', icon: MessageSquare },
-        { name: 'Plans', path: '/admin/plans', icon: CreditCard },
     ];
 
     return (

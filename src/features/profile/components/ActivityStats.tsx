@@ -1,6 +1,11 @@
 import { MessageCircle, Heart, Share2 } from 'lucide-react';
 
-export default function ActivityStats() {
+interface ActivityStatsProps {
+    totalComments: number;
+    totalRecipes: number; 
+}
+
+export default function ActivityStats({ totalComments, totalRecipes }: ActivityStatsProps) {
     return (
         <div className="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-6">
             <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
@@ -18,7 +23,7 @@ export default function ActivityStats() {
                         </div>
                         <span className="font-medium text-gray-600 group-hover:text-gray-800 transition-colors">Comments</span>
                     </div>
-                    <span className="text-xl font-bold text-orange-600">0</span>
+                    <span className="text-xl font-bold text-orange-600">{totalComments}</span>
                 </div>
 
                 <div className="flex items-center justify-between p-4 bg-green-50 rounded-xl border border-green-100 hover:bg-green-100 transition-colors cursor-pointer group">
@@ -28,17 +33,7 @@ export default function ActivityStats() {
                         </div>
                         <span className="font-medium text-gray-600 group-hover:text-gray-800 transition-colors">Saved Recipes</span>
                     </div>
-                    <span className="text-xl font-bold text-green-600">12</span>
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-blue-50 rounded-xl border border-blue-100 hover:bg-blue-100 transition-colors cursor-pointer group">
-                    <div className="flex items-center gap-3">
-                        <div className="bg-white p-2 rounded-lg text-blue-500 shadow-sm">
-                            <Share2 className="w-5 h-5" />
-                        </div>
-                        <span className="font-medium text-gray-600 group-hover:text-gray-800 transition-colors">Shared</span>
-                    </div>
-                    <span className="text-xl font-bold text-blue-600">8</span>
+                    <span className="text-xl font-bold text-green-600">{totalRecipes}</span>
                 </div>
             </div>
         </div>

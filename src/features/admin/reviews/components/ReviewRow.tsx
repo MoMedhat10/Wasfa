@@ -10,7 +10,7 @@ export type Review = {
     body: string;
     createdAt: string;
     username: string;
-    recipe: {image: {url: string} , name :string };
+    recipe: {image: {url: string} , name :string , _id: string };
     user: {isBanned: boolean , id: string};
 };
 

@@ -19,6 +19,7 @@ interface QueryResponse {
     subscription: SubscriptionType;
     favoriteRecipes: Recipe[];
     comments: Review[];
+    createdAt: string;
 }
 
 export const useFetchUser = (userId: string) => {

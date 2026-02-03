@@ -23,9 +23,9 @@ interface QueryResponse {
 }
 
 export const useFetchUser = (userId: string) => {
-    const { data:user , isPending } = useQuery<QueryResponse>({
+    const { data:user , isPending , isError , refetch } = useQuery<QueryResponse>({
         queryFn: () => fetchUserService(userId),
         queryKey: ['user' , userId],
     })
-    return { user , isPending }
+    return { user , isPending , isError , refetch }
 } 

@@ -22,6 +22,7 @@ import ReviewsPage from './features/admin/reviews/pages/ReviewsPage';
 import SuccessPage from './features/plans/pages/SuccessPage';
 import CancelPage from './features/plans/pages/CancelPage';
 import ProtectedRoute from './routes/ProtectedRoute';
+import FavoriteRecipesPage from './features/favoriteRecipes/pages/FavoriteRecipesPage';
 
 
 
@@ -40,6 +41,7 @@ function App() {
           <Route path='search' element={<SearchPage />} />
           <Route path='profile' element={<ProfilePage />} />
           <Route path='plans' element={<PlansPage />} />
+          <Route path='favorites' element={<FavoriteRecipesPage />} />
           <Route path='success' element={<SuccessPage />} />
           <Route path='cancel' element={<CancelPage />} />
         </Route>
@@ -50,12 +52,12 @@ function App() {
           <Route path='recipes' element={<RecipesPage />} />
           <Route path='reviews' element={<ReviewsPage />} />
         </Route>
- 
-        <Route element={ accessToken ? <Navigate to="/" /> : <SignUp /> } path="/register" />
-        <Route element={ accessToken ? <Navigate to="/" /> : <Login /> } path="/login" />
-        <Route element={<EmailConfirmation /> } path="/users/:userId/verify/:token" />
-        <Route element={<ForgotPassword /> } path="/auth/forgot-password" />
-        <Route element={<ResetPassword /> } path="/users/:userId/reset-password/:token" />
+
+        <Route element={accessToken ? <Navigate to="/" /> : <SignUp />} path="/register" />
+        <Route element={accessToken ? <Navigate to="/" /> : <Login />} path="/login" />
+        <Route element={<EmailConfirmation />} path="/users/:userId/verify/:token" />
+        <Route element={<ForgotPassword />} path="/auth/forgot-password" />
+        <Route element={<ResetPassword />} path="/users/:userId/reset-password/:token" />
       </Routes>
     </HeroUIProvider>
   );

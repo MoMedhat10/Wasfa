@@ -5,6 +5,7 @@ interface IStats {
     usersCount: number;
     recipesCount: number;
     commentsCount: number;
+    subscriptionsCount: number;
 }
 
 

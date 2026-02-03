@@ -7,7 +7,7 @@ import {
     Button
 } from "@heroui/react";
 import { IUsers } from '../hooks/useUsers';
-import { formatDate } from '../utils';
+import { formatDate, getPlanColor, getUserPlan } from '../utils';
 
 interface UserRowProps {
     user: IUsers;
@@ -16,6 +16,10 @@ interface UserRowProps {
 }
 
 const UserRow = ({ user , onDelete , onBan  }: UserRowProps) => {
+
+    
+
+
 
     return (
         <tr className="hover:bg-gray-50/50 transition-colors">
@@ -34,13 +38,8 @@ const UserRow = ({ user , onDelete , onBan  }: UserRowProps) => {
                 </span>
             </td>
             <td className="px-6 py-4">
-                <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${user.subscription === 'PRO'
-                    ? 'bg-purple-100 text-purple-700'
-                    : user.subscription === 'BASIC'
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'bg-gray-100 text-gray-700'
-                    }`}>
-                    {user.subscription}
+                <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getPlanColor(user)}`}>
+                    {getUserPlan(user)}
                 </span>
             </td>
             <td className="px-6 py-4">

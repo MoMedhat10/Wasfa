@@ -48,7 +48,7 @@ export const getStatsCards = (stats: any) => [
     },
     {
         title: 'Active Subscriptions',
-        value: '4',
+        value: stats?.subscriptionsCount?.toString() || '0',
         icon: Crown,
         color: 'bg-orange-500',
         bgColor: 'bg-orange-50',

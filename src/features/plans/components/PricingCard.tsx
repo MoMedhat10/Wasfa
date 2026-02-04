@@ -64,6 +64,7 @@ export default function PricingCard({
     const { accessToken } = useAuthStore();
     const priceId = title === "Basic" ? import.meta.env.VITE_STRIPE_BASIC_PLAN_PRICE_ID : title === "Pro" ? import.meta.env.VITE_STRIPE_PRO_PLAN_PRICE_ID : null;
     
+    
 
 
     const handleSubscribe = async (priceId: string) => {

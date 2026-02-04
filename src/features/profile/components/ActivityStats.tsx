@@ -1,4 +1,5 @@
-import { MessageCircle, Heart, Share2 } from 'lucide-react';
+import { MessageCircle, Heart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface ActivityStatsProps {
     totalComments: number;
@@ -6,6 +7,7 @@ interface ActivityStatsProps {
 }
 
 export default function ActivityStats({ totalComments, totalRecipes }: ActivityStatsProps) {
+     const navigate = useNavigate();
     return (
         <div className="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-6">
             <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
@@ -26,14 +28,14 @@ export default function ActivityStats({ totalComments, totalRecipes }: ActivityS
                     <span className="text-xl font-bold text-orange-600">{totalComments}</span>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-green-50 rounded-xl border border-green-100 hover:bg-green-100 transition-colors cursor-pointer group">
+                <div onClick={() => navigate("/favorites")} className="flex items-center justify-between p-4 bg-green-50 rounded-xl border border-green-100 hover:bg-green-100 transition-colors cursor-pointer group">
                     <div className="flex items-center gap-3">
                         <div className="bg-white p-2 rounded-lg text-green-500 shadow-sm">
-                            <Heart className="w-5 h-5" />
+                            <Heart className="w-5 h-5" /> 
                         </div>
-                        <span className="font-medium text-gray-600 group-hover:text-gray-800 transition-colors">Saved Recipes</span>
+                        <span className="font-medium text-gray-600 group-hover:text-gray-800 transition-colors">Favorite Recipes</span>
                     </div>
-                    <span className="text-xl font-bold text-green-600">{totalRecipes}</span>
+                    <span className="text-xl font-bold text-green-600" >{totalRecipes}</span>
                 </div>
             </div>
         </div>

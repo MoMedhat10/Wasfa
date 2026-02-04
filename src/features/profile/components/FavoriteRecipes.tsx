@@ -2,7 +2,6 @@ import RecipeCard from "@/common/components/recipeCard/RecipeCard";
 import { Recipe } from "@/common/types/Recipe";
 import { Heart } from 'lucide-react';
 import NotFountComments from "./NotFountItems";
-import { useNavigate } from "react-router-dom";
 
 
 interface FavoriteRecipesProps {
@@ -10,11 +9,11 @@ interface FavoriteRecipesProps {
 }
 
 export default function FavoriteRecipes({ favoriteRecipes }: FavoriteRecipesProps) {
-    const navigate = useNavigate();
+
     return (
         <div className="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-6">
             <h3  className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2 ">
-                <Heart onClick={() => navigate("/favorites")} className="w-5 h-5 text-orange-500 cursor-pointer" />
+                <Heart className="w-5 h-5 text-orange-500" />
                 Favorite Recipes
             </h3>
 

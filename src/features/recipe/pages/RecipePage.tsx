@@ -21,11 +21,11 @@ export default function RecipePage() {
     const { id } = useParams<{ id: string }>();
     const { recipe, isLoading, error, refetch } = useRecipe(id!);
     const { accessToken } = useAuthStore();
-    const { _id: userId } = jwtDecode<JwtPayload>(accessToken!);
 
-    const { user} = useFetchUser(userId);
+    const decoded = accessToken ? jwtDecode<JwtPayload>(accessToken) : null;
+    const { user } = useFetchUser(decoded?._id!);
     const isFavorite = user?.favoriteRecipes.some((recipe) => recipe.id === id);
-    
+ 
 
     const avgRating = recipe?.comments?.length
         ? recipe.comments.reduce((acc, comment) => acc + comment.rating, 0) / recipe.comments.length
@@ -57,7 +57,7 @@ export default function RecipePage() {
             </div>
 
             {/* Image Section */}
-            <ImageSection userId={userId} isFavorite={isFavorite} recipe={{ ...recipe!, rating: avgRating }} />
+            <ImageSection userId={decoded?._id!} isFavorite={isFavorite} recipe={{ ...recipe!, rating: avgRating }} />
 
             {/* Description */}
             <div className="container mx-auto px-6 mt-8">

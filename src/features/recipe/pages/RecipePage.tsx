@@ -25,7 +25,7 @@ export default function RecipePage() {
     const decoded = accessToken ? jwtDecode<JwtPayload>(accessToken) : null;
     const { user } = useFetchUser(decoded?._id!);
     const isFavorite = user?.favoriteRecipes.some((recipe) => recipe.id === id);
- 
+
 
     const avgRating = recipe?.comments?.length
         ? recipe.comments.reduce((acc, comment) => acc + comment.rating, 0) / recipe.comments.length
@@ -33,9 +33,13 @@ export default function RecipePage() {
 
 
     useEffect(() => {
+        if (user?.subscription?.status !== "active" && recipe?.premium === true) {
+            navigate("/upgrade");
+        }
         window.scrollTo(0, 0);
-    }, [id])
+    }, [id, user, recipe, navigate])
 
+    
     if (isLoading) {
         return <RecipePageSkeleton />
     }

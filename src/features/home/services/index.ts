@@ -10,7 +10,7 @@ export interface RecipeDefaults {
     ingredients?: string[];
     page?: number;
     search?: string ;
-    type?:  "premium" | undefined;
+    type?:  "premium" | "free" | "";
 }
 
 const defaultParams: RecipeDefaults = {
@@ -20,9 +20,9 @@ const defaultParams: RecipeDefaults = {
     limit: 6,
     ingredients: [],
     page: 1,
-
+    type: "free"
 }; 
-
+ 
 export const fetchRecipes = async (params: RecipeDefaults = defaultParams) => {
     params.ingredients = params.ingredients || [];
     params.page = params.page || 1;

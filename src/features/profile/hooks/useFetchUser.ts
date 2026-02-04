@@ -26,6 +26,7 @@ export const useFetchUser = (userId: string) => {
     const { data:user , isPending , isError , refetch } = useQuery<QueryResponse>({
         queryFn: () => fetchUserService(userId),
         queryKey: ['user' , userId],
+        enabled: !!userId,
     })
     return { user , isPending , isError , refetch }
 } 

@@ -23,6 +23,7 @@ import SuccessPage from './features/plans/pages/SuccessPage';
 import CancelPage from './features/plans/pages/CancelPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import FavoriteRecipesPage from './features/favoriteRecipes/pages/FavoriteRecipesPage';
+import UpgradeToPremiumPage from './features/plans/pages/UpgradeToPremiumPage';
 
 
 
@@ -44,6 +45,7 @@ function App() {
           <Route path='favorites' element={<FavoriteRecipesPage />} />
           <Route path='success' element={<SuccessPage />} />
           <Route path='cancel' element={<CancelPage />} />
+          <Route path='upgrade' element={<UpgradeToPremiumPage />} />
         </Route>
 
         <Route path='/admin' element={<AdminLayout />}>

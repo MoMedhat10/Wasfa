@@ -4,10 +4,19 @@ import HowItWorks from '../components/HowItWorks';
 import { useSearchParams } from "react-router-dom";
 import { RecipeDefaults } from "../services";
 import { filterType, limit, sortByType, sortType } from "../types";
+import useAuthStore from "@/features/auth/store/auth";
+import { useFetchUser } from "@/features/profile/hooks/useFetchUser";
+import { jwtDecode } from "jwt-decode";
+import { JwtPayload } from "@/features/recipe/components/reviewForm/ReviewForm";
 
 
 export default function Home() {
     const [searchParams] = useSearchParams();
+    const { accessToken } = useAuthStore();
+    const decoded = accessToken ? jwtDecode<JwtPayload>(accessToken) : null;
+    const { user } = useFetchUser(decoded?._id!);
+
+    const isPremiumUser = user?.subscription?.status === "active" ? "" : "free";
 
     const sortBy = (searchParams.get('sortBy') as sortByType) || 'name';
     const sortType = (searchParams.get('sort') as sortType) || 'asc';
@@ -21,7 +30,8 @@ export default function Home() {
         filterBy,
         limit,
         ingredients: [],
-        page
+        page,
+        type: isPremiumUser
     };
 
     

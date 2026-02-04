@@ -1,5 +1,5 @@
-import  { useState } from 'react';
-import { Filter, ArrowUpNarrowWide, ArrowDownWideNarrow } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowUpNarrowWide, ArrowDownWideNarrow } from 'lucide-react';
 import CustomSelect from '../customSelect/CustomSelect';
 import { filterType, limit, sortByType, sortType } from '@/features/home/types';
 import { useSearchParams } from 'react-router-dom';
@@ -16,7 +16,7 @@ export default function FilterComponent() {
     const [searchParams, setSearchParams] = useSearchParams();
 
 
-    const sortByOptions   = [{
+    const sortByOptions = [{
         label: "Name",
         value: "name"
     }, {
@@ -29,7 +29,7 @@ export default function FilterComponent() {
         label: "Servings",
         value: "servings"
     }];
-    const filterByOptions   = [{
+    const filterByOptions = [{
         label: "All Dishes",
         value: "all"
     }, {
@@ -45,7 +45,7 @@ export default function FilterComponent() {
         label: "High Rated (4.5+)",
         value: "high-rated"
     }];
-    const itemsPerPageOptions  = [{
+    const itemsPerPageOptions = [{
         label: "6",
         value: 6
     }, {
@@ -57,14 +57,14 @@ export default function FilterComponent() {
     }];
 
 
-   
+
     const handleChangeSortBy = (value: sortByType) => {
         setSortBy(value);
         searchParams.set('sortBy', value);
         setSearchParams(searchParams);
     };
 
-    
+
     const handleChangeSortOrder = (value: sortType) => {
         setSortOrder(value);
         searchParams.set('sort', value);
@@ -82,58 +82,65 @@ export default function FilterComponent() {
         searchParams.set('limit', value.toString());
         setSearchParams(searchParams);
     };
-   
 
-    
+
+
 
     return (
-        <div className="bg-white p-4 rounded-xl shadow-md">
-            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4 md:gap-6">
+        <div className="flex flex-col gap-6">
+            {/* Top Bar: Sort & Pagination */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
 
-                {/* --- Sort By Section --- */}
-                <div className="flex items-center gap-2">
+                {/* Sort Controls */}
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                    <span className="text-sm font-semibold text-gray-500 whitespace-nowrap hidden sm:inline-block">Sort by:</span>
                     <CustomSelect
                         id="sort-by"
-                        label="Sort by:"
+                        label=""
                         value={sortBy}
                         onChange={(e) => handleChangeSortBy(e.target.value as sortByType)}
                         options={sortByOptions}
                     />
                     <button
                         onClick={() => handleChangeSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                        className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-orange-500 transition-colors"
+                        className="flex items-center justify-center p-2 text-gray-500 bg-gray-50 border border-gray-200 rounded-xl hover:bg-gray-100 hover:text-orange-500 transition-colors"
+                        title={sortOrder === 'asc' ? 'Ascending' : 'Descending'}
                     >
                         {sortOrder === 'asc' ? (
-                            <ArrowUpNarrowWide className="w-4 h-4" />
+                            <ArrowUpNarrowWide className="w-5 h-5" />
                         ) : (
-                            <ArrowDownWideNarrow className="w-4 h-4" />
+                            <ArrowDownWideNarrow className="w-5 h-5" />
                         )}
-                        <span>{sortOrder === 'asc' ? 'Ascending' : 'Descending'}</span>
                     </button>
                 </div>
 
-                {/* Spacer to push filter and show to the right on larger screens */}
-                <div className="hidden lg:flex-grow"></div>
-
-                {/* --- Filter & Show Section --- */}
-                <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6">
-                    <CustomSelect
-                        id="filter-by"
-                        label="Filter:"
-                        icon={<Filter className="w-5 h-5 text-gray-500" />}
-                        value={filterBy}
-                        onChange={(e) => handleChangeFilterBy(e.target.value as filterType)}
-                        options={filterByOptions}
-                    />
+                {/* Show Items Count */}
+                <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+                    <span className="text-sm font-semibold text-gray-500 whitespace-nowrap hidden sm:inline-block">Show:</span>
                     <CustomSelect
                         id="show-per-page"
-                        label="Show:"
+                        label=""
                         value={itemsPerPage}
                         onChange={(e) => handleChangeItemsPerPage(parseInt(e.target.value, 10) as limit)}
                         options={itemsPerPageOptions}
                     />
                 </div>
+            </div>
 
+            {/* Filter Pills */}
+            <div className="flex flex-wrap items-center justify-center gap-3">
+                {filterByOptions.map((option) => (
+                    <button
+                        key={option.value}
+                        onClick={() => handleChangeFilterBy(option.value as filterType)}
+                        className={`rounded-full px-5 py-2.5 text-sm font-bold transition-all duration-200 ${filterBy === option.value
+                            ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30 transform scale-105'
+                            : 'bg-white text-gray-600 shadow-sm hover:bg-gray-50 hover:shadow border border-gray-200 hover:border-orange-200'
+                            }`}
+                    >
+                        {option.label}
+                    </button>
+                ))}
             </div>
         </div>
     );

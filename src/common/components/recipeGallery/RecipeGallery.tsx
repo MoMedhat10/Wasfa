@@ -13,9 +13,11 @@ import { useSearchParams } from 'react-router-dom';
 interface RecipeGalleryProps {
     queryParams: RecipeDefaults;
     Search?: boolean;
+    isPremium?: boolean;
+    
 }
 
-export default function RecipeGallery({ queryParams ,  Search }: RecipeGalleryProps) {
+export default function RecipeGallery({ queryParams ,  Search , isPremium }: RecipeGalleryProps) {
     const { data, isError, isPending , refetch } = useRecipes(queryParams);
     const [searchParams , setSearchParams] = useSearchParams();
     const pageFromUrl = Number(searchParams.get('page')) || 1;
@@ -49,11 +51,15 @@ export default function RecipeGallery({ queryParams ,  Search }: RecipeGalleryPr
                         <p className="text-gray-600 mt-2 px-3">
                             Discover our most popular and highly-rated recipes, carefully selected by our culinary team and loved by our community.
                         </p>
-                        <p className="text-sm text-gray-500 mt-4">Showing {data?.recipes?.length} of {data?.recipes?.length} recipes</p>
+                        
                     </div>
                 )}
 
-                <RecipeFilter /> 
+                {
+                    isPremium &&  (
+                        <RecipeFilter /> 
+                    )
+                }
 
                 {isPending && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
@@ -75,9 +81,13 @@ export default function RecipeGallery({ queryParams ,  Search }: RecipeGalleryPr
                     ))}
                 </div>
 
-                <div className="flex justify-center mt-8">
-                    <Pagination className=' cursor-pointer' initialPage={page} total={data?.totalPages!} color='warning' size='lg' onChange={handlePageChange} showShadow variant='bordered' showControls loop />
-                </div>
+                {
+                    data?.totalPages! > 1 && isPremium && (
+                        <div className="flex justify-center mt-8">
+                            <Pagination className=' cursor-pointer' initialPage={page} total={data?.totalPages!} color='warning' size='lg' onChange={handlePageChange} showShadow variant='bordered' showControls loop />
+                        </div>
+                    )
+                }
             </div>
         </div>
     );

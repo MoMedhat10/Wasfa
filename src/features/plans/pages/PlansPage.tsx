@@ -30,7 +30,7 @@ export default function PlansPage() {
                         variant="free"
                         features={[
                             "Access to basic recipes",
-                            "10 ingredient searches per month",
+                            "basic search",
                             "Basic recipe ratings",
                             "Community access",
                             "Email support"
@@ -46,10 +46,9 @@ export default function PlansPage() {
                         variant="basic"
                         features={[
                             "Everything in Free",
-                            "50 ingredient searches per month",
+                            "access to more premium recipes",
                             "Advanced recipe filters",
-                            "Save favorite recipes",
-                            "Meal planning tools",
+                            "Save favorite recipes up to 10",
                             "Priority email support"
                         ]}
                     />
@@ -65,11 +64,10 @@ export default function PlansPage() {
                         features={[
                             "Everything in Basic",
                             "Unlimited ingredient searches",
-                            "Premium recipe collection",
-                            "Advanced meal planning",
-                            "Nutritional information",
-                            "Recipe customization",
-                            "Priority phone & chat support",
+                            "Save favorite recipes up to 50",
+                            "Access to more advanced filters",
+                            "All premium recipes collection",
+                            "no ads",
                             "Early access to new features"
                         ]}
                     />

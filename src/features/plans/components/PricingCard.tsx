@@ -1,8 +1,13 @@
 import api from '@/common/api';
+import { getUserPlan } from '@/features/admin/users/utils';
 import useAuthStore from '@/features/auth/store/auth';
+import { useFetchUser } from '@/features/profile/hooks/useFetchUser';
+import { JwtPayload } from '@/features/recipe/components/reviewForm/ReviewForm';
 import { addToast } from '@heroui/react';
 import { isAxiosError } from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import { Check, Star, Zap, Crown } from 'lucide-react';
+import { useState } from 'react';
 
 
 interface PricingCardProps {
@@ -62,9 +67,12 @@ export default function PricingCard({
 
     const styles = getThemeStyles();
     const { accessToken } = useAuthStore();
+    const decoded = accessToken ? jwtDecode<JwtPayload>(accessToken) : null;
+    const { user } = useFetchUser(decoded?._id!);
     const priceId = title === "Basic" ? import.meta.env.VITE_STRIPE_BASIC_PLAN_PRICE_ID : title === "Pro" ? import.meta.env.VITE_STRIPE_PRO_PLAN_PRICE_ID : null;
+    const [loading , setLoading] = useState(false);
     
-    
+     const currentPlan = title.toLocaleUpperCase() === getUserPlan(user!);
 
 
     const handleSubscribe = async (priceId: string) => {
@@ -81,6 +89,7 @@ export default function PricingCard({
         if(!priceId) return;
 
         try {
+            setLoading(true);
             const response = await api.post("/payments/checkout-session" , {
                 priceId,
             })
@@ -96,6 +105,8 @@ export default function PricingCard({
                     color: 'danger',
                 })
             }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -133,8 +144,8 @@ export default function PricingCard({
                     ))}
                 </ul>
 
-                <button onClick={() => handleSubscribe(priceId)}  className={`w-full text-center py-4 cursor-pointer rounded-xl font-bold transition-all transform active:scale-[0.98] ${styles.buttonBg}`}>
-                    {buttonText}
+                <button disabled={loading || currentPlan} onClick={() => handleSubscribe(priceId)}  className={`w-full text-center py-4 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer rounded-xl font-bold transition-all transform active:scale-[0.98] ${styles.buttonBg}`}>
+                    {currentPlan ? "Current Plan" : buttonText}
                 </button>
             </div>
         </div>

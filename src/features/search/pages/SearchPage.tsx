@@ -1,6 +1,10 @@
 import RecipeGallery from "@/common/components/recipeGallery/RecipeGallery";
+import useAuthStore from "@/features/auth/store/auth";
 import { RecipeDefaults } from "@/features/home/services";
 import { filterType, limit, sortByType, sortType } from "@/features/home/types";
+import { useFetchUser } from "@/features/profile/hooks/useFetchUser";
+import { JwtPayload } from "@/features/recipe/components/reviewForm/ReviewForm";
+import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -11,6 +15,10 @@ function SearchPage() {
     const [ingredients, setIngredients] = useState<string[]>([]);
     const [ingredient, setIngredient] = useState<string>("");
     const [searchParams] = useSearchParams();
+    const { accessToken } = useAuthStore();
+    const decoded = accessToken ? jwtDecode<JwtPayload>(accessToken) : null;
+    const { user } = useFetchUser(decoded?._id!);
+    const isPremiumUser = user?.subscription?.status === "active" ? true : false;
 
     const sortBy = (searchParams.get('sortBy') as sortByType) || 'name';
     const sortType = (searchParams.get('sort') as sortType) || 'asc';
@@ -24,7 +32,8 @@ function SearchPage() {
         filterBy,
         limit,
         ingredients,
-        page
+        page,
+        type: isPremiumUser ? "" : "free"
     };
 
 
@@ -111,7 +120,7 @@ function SearchPage() {
 
 
                 <main className="mt-20">
-                    <RecipeGallery queryParams={queryParams} Search />
+                    <RecipeGallery queryParams={queryParams} Search isPremium={isPremiumUser} />
                 </main>
 
             </div>

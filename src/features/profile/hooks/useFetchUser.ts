@@ -11,7 +11,7 @@ type SubscriptionType = {
     status: string;
 }
 
-interface QueryResponse {
+export interface QueryResponse {
     id: string;
     username: string;
     email: string;

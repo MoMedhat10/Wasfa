@@ -21,7 +21,7 @@ export default function UpgradeToPremiumPage() {
                 </p>
                 <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
                     <button
-                        onClick={() => navigate(-1)}
+                        onClick={() => navigate("/")}
                         className="px-8 py-3 cursor-pointer rounded-full font-semibold border-2 border-gray-200 text-gray-600 hover:bg-gray-50 transition-all"
                     >
                         Go Back

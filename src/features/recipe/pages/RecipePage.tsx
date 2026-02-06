@@ -14,6 +14,7 @@ import CommentsNotFound from "../components/notFoundComments/CommentsNotFound";
 import useAuthStore from "@/features/auth/store/auth";
 import { jwtDecode } from "jwt-decode";
 import { useFetchUser } from "@/features/profile/hooks/useFetchUser";
+import { getUserPlan } from "@/features/admin/users/utils";
 
 
 export default function RecipePage() {
@@ -25,6 +26,7 @@ export default function RecipePage() {
     const decoded = accessToken ? jwtDecode<JwtPayload>(accessToken) : null;
     const { user } = useFetchUser(decoded?._id!);
     const isFavorite = user?.favoriteRecipes.some((recipe) => recipe.id === id);
+    const currentPlan = getUserPlan(user!);
 
 
     const avgRating = recipe?.comments?.length
@@ -39,7 +41,7 @@ export default function RecipePage() {
         window.scrollTo(0, 0);
     }, [id, user, recipe, navigate])
 
-    
+
     if (isLoading) {
         return <RecipePageSkeleton />
     }
@@ -61,7 +63,7 @@ export default function RecipePage() {
             </div>
 
             {/* Image Section */}
-            <ImageSection userId={decoded?._id!} isFavorite={isFavorite} recipe={{ ...recipe!, rating: avgRating }} />
+            <ImageSection plan={currentPlan} userId={decoded?._id!} isFavorite={isFavorite} recipe={{ ...recipe!, rating: avgRating }} />
 
             {/* Description */}
             <div className="container mx-auto px-6 mt-8">
@@ -99,3 +101,4 @@ export default function RecipePage() {
         </section>
     );
 }
+ 

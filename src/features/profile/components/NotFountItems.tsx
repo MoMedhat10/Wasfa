@@ -11,7 +11,7 @@ function NotFountItems({ type }: NotFountItemsProps) {
                     <ChefHat className="w-12 h-12 text-gray-300" />
                 </div>
                 <p className="text-gray-500 font-medium mb-1">You haven't left any {type} yet.</p>
-                <p className="text-gray-400 text-sm">{type === 'comments' ? 'Start exploring recipes and share your thoughts!' : 'Start exploring recipes and save your favorites!'}</p>
+                <p className="text-gray-400 text-sm">{type === 'comments' ? 'Start exploring recipes and share your thoughts!' : 'Start exploring recipes or upgrade your plan to  save your favorites!'}</p>
             </div>
   )
 }

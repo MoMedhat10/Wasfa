@@ -1,3 +1,4 @@
+import { QueryResponse } from "@/features/profile/hooks/useFetchUser";
 import { IUsers } from "../hooks/useUsers";
 
 
@@ -13,8 +14,8 @@ export const formatDate = (dateString: string) => {
 
 
 
-export const getUserPlan = (user: IUsers) => {
-       if(user.subscription.status === "active"){
+export const getUserPlan = (user: IUsers | QueryResponse) => {
+       if(user?.subscription?.status === "active"){
           if(user.subscription.stripePriceId === import.meta.env.VITE_STRIPE_PRO_PLAN_PRICE_ID){
             return "PRO"
           }else if(user.subscription.stripePriceId === import.meta.env.VITE_STRIPE_BASIC_PLAN_PRICE_ID){
@@ -25,7 +26,7 @@ export const getUserPlan = (user: IUsers) => {
     }
 
     export const getPlanColor = (user: IUsers) => {
-        if(user.subscription.status === "active"){
+        if(user?.subscription?.status === "active"){
            if(user.subscription.stripePriceId === import.meta.env.VITE_STRIPE_PRO_PLAN_PRICE_ID){
              return "bg-purple-100 text-purple-700"
            }else if(user.subscription.stripePriceId === import.meta.env.VITE_STRIPE_BASIC_PLAN_PRICE_ID){

@@ -8,11 +8,13 @@ import useAuthStore from "@/features/auth/store/auth";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "@/features/recipe/components/reviewForm/ReviewForm";
 import ProfilePageSkeleton from "./ProfilePageSkeleton";
+import { getUserPlan } from "@/features/admin/users/utils";
 
 export default function ProfilePage() {
     const { accessToken } = useAuthStore();
     const {_id: userId} = jwtDecode<JwtPayload>(accessToken!);
     const { user , isPending } = useFetchUser(userId);
+    const currentPlan = getUserPlan(user!);
 
     if(isPending) {
         return <ProfilePageSkeleton />
@@ -33,10 +35,11 @@ export default function ProfilePage() {
                     {/* Right Column - Content */}
                     <div className="lg:col-span-2 space-y-8">
                         <RecentComments comments={user?.comments!} />
-                        <FavoriteRecipes favoriteRecipes={user?.favoriteRecipes!} />
+                        <FavoriteRecipes plan={currentPlan} favoriteRecipes={user?.favoriteRecipes!} />
                     </div>
                 </div>
             </div>
         </div>
     );
 }
+ 

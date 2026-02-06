@@ -6,9 +6,10 @@ import NotFountComments from "./NotFountItems";
 
 interface FavoriteRecipesProps {
     favoriteRecipes: Recipe[];
+    plan: "FREE" | "BASIC" | "PRO"
 }
 
-export default function FavoriteRecipes({ favoriteRecipes }: FavoriteRecipesProps) {
+export default function FavoriteRecipes({ favoriteRecipes , plan }: FavoriteRecipesProps) {
 
     return (
         <div className="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-6">
@@ -18,7 +19,7 @@ export default function FavoriteRecipes({ favoriteRecipes }: FavoriteRecipesProp
             </h3>
 
             {
-                favoriteRecipes?.length === 0 ? (
+                favoriteRecipes?.length === 0 || plan === "FREE" ? (
                     <NotFountComments type="recipes" />
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

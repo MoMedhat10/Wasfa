@@ -9,9 +9,10 @@ interface ImageSectionProps {
     recipe: Recipe;
     isFavorite: boolean | undefined;
     userId: string;
+    plan: "FREE" | "BASIC" | "PRO"
 }
 
-function ImageSection({ recipe , isFavorite , userId }: ImageSectionProps) {
+function ImageSection({ recipe , isFavorite , userId , plan }: ImageSectionProps) {
     const { toggleFavorite , isPending } = useToggleFavorite(recipe.id , userId);
     const { accessToken } = useAuthStore();
 
@@ -31,7 +32,7 @@ function ImageSection({ recipe , isFavorite , userId }: ImageSectionProps) {
             <div className="absolute inset-0 bg-black/40 md:bg-black/30"></div>
 
            {
-            accessToken && (
+            accessToken && plan !== "FREE" && ( 
                 <button
                 disabled={isPending}
                 onClick={() => toggleFavorite(recipe.id)}

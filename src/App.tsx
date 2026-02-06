@@ -24,6 +24,7 @@ import CancelPage from './features/plans/pages/CancelPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import FavoriteRecipesPage from './features/favoriteRecipes/pages/FavoriteRecipesPage';
 import UpgradeToPremiumPage from './features/plans/pages/UpgradeToPremiumPage';
+import AdPopup from './features/ads/components/AdPopup';
 
 
 
@@ -61,6 +62,7 @@ function App() {
         <Route element={<ForgotPassword />} path="/auth/forgot-password" />
         <Route element={<ResetPassword />} path="/users/:userId/reset-password/:token" />
       </Routes>
+      <AdPopup />
     </HeroUIProvider>
   );
 }

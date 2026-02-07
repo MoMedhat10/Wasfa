@@ -18,34 +18,35 @@ export default function AdPopup() {
     const decoded = accessToken ? jwtDecode<JwtPayload>(accessToken) : null;
     const { user } = useFetchUser(decoded?._id!);
     const plan = getUserPlan(user!);
-    
-    
+
+
 
     useEffect(() => {
 
-        if(plan === "PRO"){  
+        if (plan === "PRO") {
             return;
-        } 
+        }
 
         if (firstRender.current) {
             firstRender.current = false;
             return;
         }
 
-        if (location.pathname === '/login' 
-            || location.pathname === '/register' 
+        if (location.pathname === '/login'
+            || location.pathname === '/register'
             || location.pathname === '/auth/forgot-password'
             || location.pathname === '/users/:userId/verify/:token'
             || location.pathname === '/users/:userId/reset-password/:token'
-            || location.pathname === '/admin' 
+            || location.pathname === '/admin'
             || location.pathname === '/admin/users'
             || location.pathname === '/admin/recipes'
-            || location.pathname === '/admin/reviews') {
-        return;
-    }
+            || location.pathname === '/admin/reviews'
+            || location.pathname === '/banned') {
+            return;
+        }
 
-    
- 
+
+
         const shouldShow = Math.random() < 0.5;
 
         if (shouldShow) {

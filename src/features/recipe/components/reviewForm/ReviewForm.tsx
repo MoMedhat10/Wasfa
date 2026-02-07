@@ -8,6 +8,7 @@ import AddRating from '../addRating/AddRating';
 export interface JwtPayload {
     _id: string;
     isAdmin: boolean;
+    isBanned: boolean;
     iat: number;
     exp: number;
 }

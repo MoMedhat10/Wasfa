@@ -25,8 +25,13 @@ export default function Login() {
 
     const onSubmit = async (data: LoginFormInputs) => {
         try {
-            const response = await api.post<{ token: string, message: string, isAdmin: boolean }>(`/auth/login`, data);
-            console.log(response.data);
+            const response = await api.post<{ token: string, message: string, isAdmin: boolean, isBanned: boolean }>(`/auth/login`, data);
+            
+            if (response.data.isBanned) {
+                navigate("/banned", { replace: true });
+                return;
+            }
+            
             setAccessToken(response.data.token);
 
             addToast({
@@ -34,9 +39,13 @@ export default function Login() {
                 description: response.data?.message || "welcome back!",
                 color: "success",
             });
-            console.log(response.data.isAdmin);
-            const path = response.data.isAdmin ? "/admin" : "/";
-            navigate(path, { replace: true });
+
+            if (response.data.isAdmin) {
+                navigate("/admin", { replace: true });
+                return;
+            }
+            
+            navigate("/", { replace: true });
         } catch (error: any) {
             console.error(error);
             addToast({

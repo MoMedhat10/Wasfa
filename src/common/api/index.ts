@@ -26,7 +26,7 @@ api.interceptors.response.use(
         const originalRequest: OriginalRequest = error.config as OriginalRequest;
 
         // Handle both 401 (no/invalid token) and 403 (forbidden)
-        if (error.response?.status === 403 && !originalRequest._retry) {
+        if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
 
             try {

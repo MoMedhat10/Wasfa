@@ -64,7 +64,7 @@ export default function PlansPage() {
                         features={[
                             "Everything in Basic",
                             "Unlimited ingredient searches",
-                            "Save favorite recipes up to 50",
+                            "Save favorite recipes up to 20",
                             "Access to more advanced filters",
                             "All premium recipes collection",
                             "no ads",

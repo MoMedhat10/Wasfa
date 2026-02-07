@@ -11,13 +11,13 @@ export const useToggleFavorite = (recipeId: string , userId: string) => {
             queryClient.invalidateQueries({ queryKey: ['recipe' , recipeId] });
             queryClient.invalidateQueries({ queryKey: ['user' , userId] });
         },
-        onError: () => {
+        onError: (err: any) => {
             addToast({
                 title: "Failed to add recipe to favorites",
-                description: "Please try again",
+                description: err.message || "Please try again",
                 color: "danger",
             })
-        }
+        } 
     })
     return { toggleFavorite  , isPending }
     

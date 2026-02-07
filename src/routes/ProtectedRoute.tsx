@@ -10,23 +10,20 @@ interface Props {
 const ProtectedRoute = ({ children, adminRoute }: Props) => {
     const { accessToken } = useAuthStore();
 
-    if(!accessToken){
-        console.log("No access token");
-        return <Navigate to="/login" />;
+    if (!accessToken) {
+        return <Navigate to="/" replace />;
     }
 
     const { isAdmin } = jwtDecode<JwtPayload>(accessToken);
     
-    if(adminRoute){
-        console.log("Admin route");
-        if(isAdmin){
+    if (adminRoute) {
+        if (isAdmin) {
             return children;
-        }else{
-            return <Navigate to="/login" />;
+        } else {
+            return <Navigate to="/" replace />;
         }
     }
 
-    console.log("User route");
     return children;
 
 };

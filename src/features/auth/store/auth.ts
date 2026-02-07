@@ -7,11 +7,11 @@ import { AuthStore } from '../interfaces';
 
 const useAuthStore = create<AuthStore>()(
     persist(
-        (set)=> ({
+        (set) => ({
             accessToken: null,
 
-            setAccessToken: (newToken) => set({accessToken: newToken}),
-            removeAccessToken: ()=> set({accessToken: null}),
+            setAccessToken: (newToken) => set({ accessToken: newToken }),
+            removeAccessToken: () => set({ accessToken: null }),
         }),
         {
             name: 'auth-storage',

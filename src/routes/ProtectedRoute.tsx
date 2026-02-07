@@ -6,8 +6,9 @@ import { Navigate } from "react-router-dom";
 interface Props {
     children: React.ReactNode;
     adminRoute?: boolean;
+    userRoute?: boolean
 }
-const ProtectedRoute = ({ children, adminRoute }: Props) => {
+const ProtectedRoute = ({ children, adminRoute, userRoute }: Props) => {
     const { accessToken } = useAuthStore();
 
     if (!accessToken) {
@@ -20,6 +21,15 @@ const ProtectedRoute = ({ children, adminRoute }: Props) => {
         if (isAdmin) {
             return children;
         } else {
+            return <Navigate to="/" replace />;
+        }
+    }
+
+    if (userRoute) {
+        if (!isAdmin) {
+            return children;
+        } else {
+                       
             return <Navigate to="/" replace />;
         }
     }

@@ -4,7 +4,8 @@ import {
     Users,
     UtensilsCrossed,
     MessageSquare,
-    LogOut
+    LogOut,
+    
 } from 'lucide-react';
 import { useLogout } from '@/common/hooks/useLogout';
 
@@ -16,6 +17,7 @@ interface AdminSidebarProps {
 const AdminSidebar = ({ isOpen, onClose }: AdminSidebarProps) => {
     const location = useLocation();
 
+    
     const navItems = [
         { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
         { name: 'Users', path: '/admin/users', icon: Users },

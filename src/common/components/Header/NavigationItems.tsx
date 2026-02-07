@@ -1,9 +1,13 @@
 
 import { NavLink } from "react-router-dom";
-import { Home, Search, CreditCard, LogIn, UserPlus, User, Heart, Star } from "lucide-react";
+import { Home, Search, CreditCard, LogIn, UserPlus, User, Heart, LayoutDashboard  } from "lucide-react";
 import { NavigationItemsProps, NavItem } from "../interfacess";
 import useAuthStore from "@/features/auth/store/auth";
 import { useLogout } from "@/common/hooks/useLogout";
+import { jwtDecode } from "jwt-decode";
+import { JwtPayload } from "@/features/recipe/components/reviewForm/ReviewForm";
+import { useFetchUser } from "@/features/profile/hooks/useFetchUser";
+import { getUserPlan } from "@/features/admin/users/utils";
 
 
 
@@ -11,16 +15,21 @@ import { useLogout } from "@/common/hooks/useLogout";
 export default function NavigationItems({ isMobile = false, onItemClick }: NavigationItemsProps) {
     
     const { accessToken } = useAuthStore();
+    const decoded = accessToken ? jwtDecode<JwtPayload>(accessToken) : null;
+    const { user } = useFetchUser(decoded?._id!);
+    const currPlan = getUserPlan(user!);
     const [handleLogout , loading] = useLogout();
+     
 
     const navigationItems = [
         { name: "Home", path: "/", icon: Home, show: true },
         { name: "Search", path: "/search", icon: Search, show: true },
-        { name: "Plans", path: "/plans", icon: CreditCard, show: true },
+        { name: "Plans", path: "/plans", icon: CreditCard, show: !decoded?.isAdmin },
         { name: "Login", path: "/login", icon: LogIn, show: !accessToken },
         { name: "Register", path: "/register", icon: UserPlus, isButton: true, show: !accessToken },
-        {name: "Profile", path: "/profile", icon: User, show: accessToken},
-        {name: "Favorites", path: "/favorites", icon: Heart, show: accessToken},
+        {name: "Profile", path: "/profile", icon: User, show: accessToken && !decoded?.isAdmin },
+        {name: "Favorites", path: "/favorites", icon: Heart, show: accessToken && !decoded?.isAdmin && currPlan !== "FREE"},
+        {name: "Dashboard", path: "/admin", icon: LayoutDashboard , show: accessToken && decoded?.isAdmin},
        
     ];
 

@@ -6,6 +6,8 @@ import useAuthStore from "@/features/auth/store/auth";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "@/features/recipe/components/reviewForm/ReviewForm";
 import { useFetchUser } from "@/features/profile/hooks/useFetchUser";
+import { getUserPlan } from "@/features/admin/users/utils";
+import { Navigate } from "react-router-dom";
 
 
 
@@ -13,7 +15,12 @@ export default function FavoriteRecipesPage() {
     const { accessToken } = useAuthStore();
     const { _id: userId } = jwtDecode<JwtPayload>(accessToken!);
     const { user, isError, isPending, refetch } = useFetchUser(userId);
+    const currPlan = getUserPlan(user!);
+    
 
+    if(currPlan === "FREE"){
+        return <Navigate to="/upgrade" replace />;
+    }
 
     if (isPending) return <FavoriteRecipesSkeleton />;
     if (isError) return <FavoriteRecipesError onRetry={refetch} />;

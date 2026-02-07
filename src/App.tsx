@@ -27,12 +27,15 @@ import UpgradeToPremiumPage from './features/plans/pages/UpgradeToPremiumPage';
 import AdPopup from './features/ads/components/AdPopup';
 import NotFoundPage from './features/notFound/pages/NotFoundPage';
 import BannedPage from './features/ban/pages/BannedPage';
+import { jwtDecode } from 'jwt-decode';
+import { JwtPayload } from './features/recipe/components/reviewForm/ReviewForm';
 
 
 
 
 function App() {
   const { accessToken } = useAuthStore();
+  const decoded = accessToken ? jwtDecode<JwtPayload>(accessToken) : null;
 
   return (
     <HeroUIProvider>
@@ -43,13 +46,13 @@ function App() {
           <Route index element={<Home />} />
           <Route path='recipe/:id' element={<RecipePage />} />
           <Route path='search' element={<SearchPage />} />
-          <Route path='profile' element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-          <Route path='plans' element={<PlansPage />} />
-          <Route path='favorites' element={<ProtectedRoute><FavoriteRecipesPage /></ProtectedRoute>} />
+          <Route path='profile' element={<ProtectedRoute userRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path='plans' element={decoded?.isAdmin ? <Navigate to="/" /> : <PlansPage />} />
+          <Route path='favorites' element={<ProtectedRoute userRoute><FavoriteRecipesPage /></ProtectedRoute>} />
           <Route path='success' element={<SuccessPage />} />
           <Route path='cancel' element={<CancelPage />} />
           <Route path='upgrade' element={<UpgradeToPremiumPage />} />
-        </Route>
+        </Route>  
 
         <Route path='/admin' element={<AdminLayout />}>
           <Route index element={<ProtectedRoute adminRoute><OverviewPage /></ProtectedRoute>} />

@@ -27,6 +27,10 @@ export default function AdPopup() {
             return;
         }
 
+        if (decoded?.isAdmin) {
+            return;
+        }
+
         if (firstRender.current) {
             firstRender.current = false;
             return;

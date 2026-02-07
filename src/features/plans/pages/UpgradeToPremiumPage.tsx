@@ -16,7 +16,7 @@ export default function UpgradeToPremiumPage() {
                     Premium Quality Awaits
                 </h1>
                 <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                    This recipe is part of our <span className="text-orange-600 font-bold">Premium Collection</span>.
+                    This recipe or page is part of our <span className="text-orange-600 font-bold">Premium Collection</span>.
                     Upgrade your plan today to unlock exclusive recipes, advanced features, and a better culinary experience.
                 </p>
                 <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">

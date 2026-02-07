@@ -63,7 +63,7 @@ export default function RecipePage() {
             </div>
 
             {/* Image Section */}
-            <ImageSection plan={currentPlan} userId={decoded?._id!} isFavorite={isFavorite} recipe={{ ...recipe!, rating: avgRating }} />
+            <ImageSection plan={currentPlan} isAdmin={decoded?.isAdmin} userId={decoded?._id!} isFavorite={isFavorite} recipe={{ ...recipe!, rating: avgRating }} />
 
             {/* Description */}
             <div className="container mx-auto px-6 mt-8">
@@ -87,7 +87,7 @@ export default function RecipePage() {
 
                 {/* Review Form */}
                 {
-                    accessToken && (
+                    accessToken && !decoded?.isAdmin && (
                         <ReviewForm recipeId={recipe?.id!} />
                     )
                 }

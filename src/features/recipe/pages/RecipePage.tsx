@@ -38,7 +38,7 @@ export default function RecipePage() {
         if (user?.subscription?.status !== "active" && recipe?.premium === true) {
             navigate("/upgrade");
         }
-        window.scrollTo(0, 0);
+        
     }, [id, user, recipe, navigate])
 
 

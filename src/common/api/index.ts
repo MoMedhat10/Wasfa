@@ -2,7 +2,6 @@ import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'ax
 import useAuthStore from '@/features/auth/store/auth';
 import { OriginalRequest } from '../interfacess';
 
-
 const base = import.meta.env.VITE_BASE_URL;
 
 const api: AxiosInstance = axios.create({
@@ -10,9 +9,10 @@ const api: AxiosInstance = axios.create({
     withCredentials: true,
 });
 
-// Add access token to every request
+
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     const token: string | null = useAuthStore.getState().accessToken;
+    console.log('🔑 Request interceptor - Token:', token ? 'EXISTS' : 'MISSING');
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
@@ -25,11 +25,13 @@ api.interceptors.response.use(
     async (error: AxiosError) => {
         const originalRequest: OriginalRequest = error.config as OriginalRequest;
 
-        // Handle both 401 (no/invalid token) and 403 (forbidden)
+        // Handle 401 errors (unauthorized)
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
 
             try {
+                console.log('Access token expired, attempting to refresh...');
+                
                 const res = await axios.post<{ token: string }>(
                     `${base}/auth/refresh-token`,
                     {},
@@ -37,17 +39,22 @@ api.interceptors.response.use(
                 );
 
                 const newToken: string = res.data.token;
+                
+                console. log('Token refreshed successfully');
+                
                 useAuthStore.getState().setAccessToken(newToken);
 
-                originalRequest.headers.Authorization = `Bearer ${newToken}`;
-                // Return a new promise to retry the original request with the new token
-                return api(originalRequest);
+               
+                return api.request(originalRequest);
             } catch (err) {
                 console.error('Refresh token failed:', err);
                 console.log('Response:', (err as AxiosError).response?.data);
 
+                
+                useAuthStore.getState().removeAccessToken();
                 useAuthStore.persist.clearStorage();
-                window.location.href = '/login';
+                 window.location.href = '/login';
+                
                 return Promise.reject(err);
             }
         }

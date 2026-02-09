@@ -18,7 +18,7 @@ export default function FavoriteRecipesPage() {
     const currPlan = getUserPlan(user!);
     
 
-    if(currPlan === "FREE"){
+    if(currPlan === "FREE" && !isPending){
         return <Navigate to="/upgrade" replace />;
     }
 
@@ -26,14 +26,14 @@ export default function FavoriteRecipesPage() {
     if (isError) return <FavoriteRecipesError onRetry={refetch} />;
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto h-[calc(100vh-70px)] px-4 py-8">
             <header className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">My Favorite Recipes</h1>
                 <p className="text-gray-600">Quickly access the recipes you love the most.</p>
             </header>
 
             {user?.favoriteRecipes?.length! > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6">
                     {user?.favoriteRecipes?.map((recipe) => (
                         <RecipeCard key={recipe.id} recipe={recipe} />
                     ))}

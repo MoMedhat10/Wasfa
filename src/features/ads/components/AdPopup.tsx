@@ -16,23 +16,27 @@ export default function AdPopup() {
 
     const { accessToken } = useAuthStore();
     const decoded = accessToken ? jwtDecode<JwtPayload>(accessToken) : null;
-    const { user } = useFetchUser(decoded?._id!);
+    const { user, isPending } = useFetchUser(decoded?._id!);
     const plan = getUserPlan(user!);
-
-
+   
 
     useEffect(() => {
+
+        if (firstRender.current) {
+            firstRender.current = false;
+            return;
+        }
+
+
+        if (isPending && accessToken) {
+            return;
+        }
 
         if (plan === "PRO") {
             return;
         }
 
         if (decoded?.isAdmin) {
-            return;
-        }
-
-        if (firstRender.current) {
-            firstRender.current = false;
             return;
         }
 
@@ -57,7 +61,7 @@ export default function AdPopup() {
             showRandomAd();
         }
 
-    }, [location.pathname]);
+    }, [location.pathname, isPending, plan]);
 
     const showRandomAd = () => {
         const randomIndex = Math.floor(Math.random() * MOCK_ADS.length);

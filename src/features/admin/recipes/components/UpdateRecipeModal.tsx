@@ -138,7 +138,7 @@ export default function UpdateRecipeModal({ isOpen, onOpenChange, recipe }: Upda
             scrollBehavior="inside"
         >
             <ModalContent>
-                {(onClose) => (
+                {() => (
                     <>
                         <ModalHeader className="flex flex-col gap-1">Update Recipe</ModalHeader>
                         <ModalBody>

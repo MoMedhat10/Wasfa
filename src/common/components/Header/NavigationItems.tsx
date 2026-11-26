@@ -1,7 +1,7 @@
 
 import { NavLink } from "react-router-dom";
 import { Home, Search, CreditCard, LogIn, UserPlus, User, Heart, LayoutDashboard  } from "lucide-react";
-import { NavigationItemsProps, NavItem } from "../interfacess";
+import { NavigationItemsProps, NavItem } from "@/common/interfacess";
 import useAuthStore from "@/features/auth/store/auth";
 import { useLogout } from "@/common/hooks/useLogout";
 import { jwtDecode } from "jwt-decode";
@@ -27,9 +27,9 @@ export default function NavigationItems({ isMobile = false, onItemClick }: Navig
         { name: "Plans", path: "/plans", icon: CreditCard, show: !decoded?.isAdmin },
         { name: "Login", path: "/login", icon: LogIn, show: !accessToken },
         { name: "Register", path: "/register", icon: UserPlus, isButton: true, show: !accessToken },
-        {name: "Profile", path: "/profile", icon: User, show: accessToken && !decoded?.isAdmin },
-        {name: "Favorites", path: "/favorites", icon: Heart, show: accessToken && !decoded?.isAdmin && currPlan !== "FREE"},
-        {name: "Dashboard", path: "/admin", icon: LayoutDashboard , show: accessToken && decoded?.isAdmin},
+        {name: "Profile", path: "/profile", icon: User, show: Boolean(accessToken && !decoded?.isAdmin) },
+        {name: "Favorites", path: "/favorites", icon: Heart, show: Boolean(accessToken && !decoded?.isAdmin && currPlan !== "FREE")},
+        {name: "Dashboard", path: "/admin", icon: LayoutDashboard , show: Boolean(accessToken && decoded?.isAdmin)},
        
     ];
 

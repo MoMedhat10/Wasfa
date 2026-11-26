@@ -1,5 +1,5 @@
 
-import { MobileMenuButtonProps } from "../interfaces";
+import { MobileMenuButtonProps } from "@/common/interfacess";
 
 export default function MobileMenuButton({ isOpen, onClick }: MobileMenuButtonProps) {
     return (

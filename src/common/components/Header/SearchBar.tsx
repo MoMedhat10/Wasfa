@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-sort-props */
 /* eslint-disable prettier/prettier */
 import { Search } from "lucide-react";
-import { SearchBarProps } from "../interfaces";
+import { SearchBarProps } from "@/common/interfacess";
 
 export default function SearchBar({ isMobile = false }: SearchBarProps) {
     return (

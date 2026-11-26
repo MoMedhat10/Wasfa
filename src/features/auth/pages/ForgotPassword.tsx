@@ -12,7 +12,7 @@ import { AxiosError } from "axios";
 
 
 const ForgotPassword = () => {
-    const [step, setStep] = useState(1);
+    const [step] = useState(1);
     const {
         register,
         handleSubmit,

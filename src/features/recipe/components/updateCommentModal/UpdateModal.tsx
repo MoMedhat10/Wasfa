@@ -3,7 +3,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   Button,
   Spinner,
 } from "@heroui/react";
@@ -35,7 +34,7 @@ function UpdateModal({ isOpen, onOpenChange, review }: UpdateModalProps) {
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
-          {(onClose) => (
+          {() => (
             <>
               <ModalHeader className="flex flex-col gap-1 text-lg font-semibold">Edit Comment</ModalHeader>
               <ModalBody>

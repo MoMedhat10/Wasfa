@@ -29,7 +29,7 @@ function Alert({isOpen , onOpenChange , selectedId}: AlertProps) {
       <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
-          {(onClose) => (
+          {() => (
             <>
               <ModalHeader className="flex flex-col gap-1 text-lg font-semibold">Alert</ModalHeader>
               <ModalBody>

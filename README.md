@@ -258,8 +258,9 @@ Wasfa/
 Create a `.env` file in the root directory and configure the following variables:
 
 ```env
-# Backend API Base URL
-VITE_BASE_URL=https://api.wasfa.example.com/api/v1
+# Backend API Base URL — keep it relative. In dev, Vite proxies /api to localhost:3000;
+# in production, vercel.json rewrites /api to the Render backend (keeps the auth cookie first-party).
+VITE_BASE_URL=/api
 
 # Stripe Subscription Price IDs
 VITE_STRIPE_BASIC_PLAN_PRICE_ID=price_basic_xxxxxxxxx

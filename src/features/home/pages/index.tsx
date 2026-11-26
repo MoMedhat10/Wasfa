@@ -8,7 +8,6 @@ import useAuthStore from "@/features/auth/store/auth";
 import { useFetchUser } from "@/features/profile/hooks/useFetchUser";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "@/features/recipe/components/reviewForm/ReviewForm";
-import { getUserPlan } from "@/features/admin/users/utils";
 
 
 export default function Home() {
@@ -18,7 +17,6 @@ export default function Home() {
     const { user } = useFetchUser(decoded?._id!);
 
     const isPremiumUser = user?.subscription?.status === "active" ? "" : "free";
-    const currentPlan = getUserPlan(user!);
 
     const sortBy = (searchParams.get('sortBy') as sortByType) || 'name';
     const sortType = (searchParams.get('sort') as sortType) || 'asc';
